@@ -1,0 +1,14 @@
+* Dotfiles
+
+** Todo:
+   - [ ] Fix illegible highlighting on \` and \[\] characters (maybe more)
+   - [ ] Learn more Norg stuff (this todo-list is pretty nifty)
+   - [ ] Learn more Treesitter stuff
+
+** NVIM
+
+   The `runtimepath` and `packpath` (usually the same) should be something like ~/.config/nvim
+
+*** Interesting Plugins:
+    - https://github.com/glacambre/firenvim -- NVIM in the browser. Probably doesn't work with Orion :sob:
+
