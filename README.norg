@@ -4,6 +4,8 @@
    - [ ] Fix illegible highlighting on \` and \[\] characters (maybe more)
    - [ ] Learn more Norg stuff (this todo-list is pretty nifty)
    - [ ] Learn more Treesitter stuff
+   - [ ] Add README.norg -> README.md generation once released
+   -- [ ] Automate generation from Norg TODO to GitHub issues? (Would be sick :grin:)
 
 ** NVIM
 
