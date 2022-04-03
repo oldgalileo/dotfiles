@@ -6,6 +6,7 @@
    - [ ] Learn more Treesitter stuff
    - [ ] Add README.norg -> README.md generation once released
    -- [ ] Automate generation from Norg TODO to GitHub issues? (Would be sick :grin:)
+   - [ ] (Rust) Setup remote debugging (good start from [this VSCode StackOverflow]{https://stackoverflow.com/questions/68888706/remote-debug-of-rust-program-in-visual-studio-code})
 
 ** NVIM
 
