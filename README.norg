@@ -1,12 +1,13 @@
 * Dotfiles
 
-** Todo:
+** NVIM Todo:
    - [ ] Fix illegible highlighting on \` and \[\] characters (maybe more)
    - [ ] Learn more Norg stuff (this todo-list is pretty nifty)
    - [ ] Learn more Treesitter stuff
    - [ ] Add README.norg -> README.md generation once released
    -- [ ] Automate generation from Norg TODO to GitHub issues? (Would be sick :grin:)
    - [ ] (Rust) Setup remote debugging (good start from [this VSCode StackOverflow]{https://stackoverflow.com/questions/68888706/remote-debug-of-rust-program-in-visual-studio-code})
+   - [ ] Visual Mode CTRL-/ for commenting
 
 ** NVIM
 
@@ -14,4 +15,7 @@
 
 *** Interesting Plugins:
     - https://github.com/glacambre/firenvim -- NVIM in the browser. Probably doesn't work with Orion :sob:
+
+
+
 
