@@ -9,10 +9,13 @@
 -- - https://github.com/elken/nvim/blob/master/init.lua
 -- - https://github.com/simrat39/dotfiles/blob/master/nvim/.config/nvim/init.lua
 
+vim.g.lspservers_to_install = { 'gopls', 'rust_analyzer' }
+
 require('plugins') -- lua/plugins.lua
 require('general') -- lua/general.lua
 
 require('config/cmp')
+require('config/lspinstall')
 require('config/lspconfig')
 require('config/rust-tools')
 require('config/symbols-outline')

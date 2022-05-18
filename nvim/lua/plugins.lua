@@ -15,7 +15,10 @@ require('packer').startup(function(use)
 	})
 	
 	-- LSP Stuff
-	use("neovim/nvim-lspconfig")
+    use({
+        "neovim/nvim-lspconfig",
+        requires = { { "williamboman/nvim-lsp-installer" } }
+    })
 	use({
 		"folke/trouble.nvim",
 		requires = { { 'kyazdani42/nvim-web-devicons' } }
@@ -51,8 +54,6 @@ require('packer').startup(function(use)
 	use("simrat39/rust-tools.nvim")
 
 	use("ray-x/lsp_signature.nvim")
-	use("williamboman/nvim-lsp-installer")
-
 
 	-- Neorg
 	use({
