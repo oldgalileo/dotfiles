@@ -11,8 +11,8 @@
 
 vim.g.lspservers_to_install = { 'gopls', 'rust_analyzer' }
 
-require('plugins') -- lua/plugins.lua
 require('general') -- lua/general.lua
+require('plugins') -- lua/plugins.lua
 
 require('config/cmp')
 require('config/lspinstall')
