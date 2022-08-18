@@ -1,5 +1,11 @@
 * Dotfiles
 
+** Requirements:
+   - tmux 3.2a+
+   - neovim 0.7+
+   - ripgrep
+   - github cli
+
 ** NVIM Todo:
    - [ ] Fix illegible highlighting on \` and \[\] characters (maybe more)
    - [ ] Learn more Norg stuff (this todo-list is pretty nifty)

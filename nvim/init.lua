@@ -15,19 +15,23 @@ require('general') -- lua/general.lua
 require('plugins') -- lua/plugins.lua
 
 require('config/cmp')
-require('config/lspinstall')
+require('config/mason')
 require('config/lspconfig')
+require('config/dap')
 require('config/rust-tools')
 require('config/symbols-outline')
 require('config/telescope')
 require('config/trouble')
 require('config/nvim-tree')
 require('config/treesitter')
+require('config/toggleterm')
+require('config/octo')
 require('config/ayu')
 
 require('config/org')
 
 local vs = require('utils.vimscript') -- lua/vimscript.lua
+local wk = require('which-key')
 
 -- * Mappings
 
@@ -41,34 +45,69 @@ vs.nnoremap("<M-h>", ":vertical resize -2<CR>")
 vs.nnoremap("<M-l>", ":vertical resize +2<CR>")
 
 -- ** Telescope
-vs.nnoremap("<Leader>f", '<cmd>lua require("telescope.builtin").find_files()<CR>', true)
-vs.nnoremap("<Leader>g", '<cmd>lua require("telescope.builtin").git_files()<CR>', true)
-vs.nnoremap("<Leader>r", '<cmd>lua require("telescope.builtin").live_grep()<CR>', true)
-vs.nnoremap("<Leader>b", '<cmd>lua require("telescope.builtin").buffers()<CR>', true)
-vs.nnoremap("<C-_>", '<cmd>lua require("utils.telescope").search_in_buffer()<CR>', true)
-
-vs.inoremap(
-  "<C-f>",
-  '<Esc> :lua require("utils/telescope").search_in_buffer()<CR>'
-)
+wk.register({
+    ["<Leader>"] = {
+        f = { function() require("telescope.builtin").find_files() end, "Find Files" },
+        g = { function() require("telescope.builtin").git_files() end, "Find Git Files" },
+        r = { function() require("telescope.builtin").live_grep() end, "Live Grep" },
+        b = { function() require("telescope.builtin").buffers() end, "Buffers" },
+    },
+    ["<C-_>"] = { function() require("utils.telescope").search_in_buffer() end, "Search Current Buffer" },
+})
+wk.register({
+    ["<C-_>"] = { function() require("utils.telescope").search_in_buffer() end, "Search Current Buffer (Insert Mode)" },
+}, { mode = "i" })
 
 -- ** LSP
-vs.nnoremap("<C-s>", '<cmd>lua vim.lsp.buf.hover()<CR>', true)
-vs.nnoremap("gd", '<cmd>lua vim.lsp.buf.definition()<CR>', true)
-vs.nnoremap("ga", '<cmd>lua vim.lsp.buf.code_action()<CR>', true)
-vs.nnoremap("ge", "<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>", true)
-vs.nnoremap("gE", "<cmd>lua vim.lsp.diagnostic.goto_next()<CR>", true)
-vs.nnoremap("<C-space>", "<cmd>lua vim.lsp.buf.hover()<CR>", true)
-vs.vnoremap("<C-space>", "<cmd>RustHoverRange<CR>")
+wk.register({
+    ["<C-s>"] = { function() vim.lsp.buf.hover() end, "Hover" },
+    g = {
+        d = { function() vim.lsp.buf.definition() end, "Definition" },
+        D = { function() vim.lsp.buf.declaration() end, "Declaration" },
+        a = { function() vim.lsp.buf.code_action() end, "Code Action" },
+        r = { function() vim.lsp.buf.references() end, "References" },
+        e = { function() vim.diagnostic.goto_prev() end, "Goto Prev Diagnostic" },
+        E = { function() vim.diagnostic.goto_next() end, "Goto Next Diagnostic" },
+    },
+})
 
-vs.nnoremap("gr", '<cmd>Trouble quickfix<CR>', true)
+-- *** DAP
+wk.register({
+    ["<C-g>"] = { function()
+        local ll = require('utils.lsp')
+        ll.run_function(ll.get_current_function())
+    end, "_which_key_ignore" },
+})
+
+wk.register({
+    ["<Leader>"] = {
+        R = { "<cmd>RustRunnables<CR>", "Rust Runnables" },
+        D = { "<cmd>RustDebuggables<CR>", "Rust Debuggables" },
+        d = {
+            b = { "<cmd>DapToggleBreakpoint<CR>", "Toggle Breakpoint" },
+            B = { function() require('dap').set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, "Add conditional breakpoint" },
+            d = { function() debug_nearest() end, "Execute debuggable at cursor" },
+            i = { function() require('dap.ui.widgets').hover() end, "Debugger inspect" },
+            e = { function() require('dap').set_exception_breakpoints({"all"}) end, "Debugger enable exception breakpoints" },
+            c = { function() require('dap').terminate() end, "Debugger terminate" },
+            v = { function() require('dapui').eval() end, "Debugger eval" },
+        },
+    },
+}, { mode = "n", noremap = true })
+wk.register({
+    ["<Leader>dv"] = { function() require('dapui').eval() end, "Debugger eval" },
+}, { mode = "v" })
+
+vs.nnoremap("L", ':DapStepInto<CR>', true)
+vs.nnoremap("H", ':DapStepOut<CR>', true)
+vs.nnoremap("J", ':DapStepOver<CR>', true)
 
 -- ** General
 vs.nnoremap("<Leader>s", '<cmd>SymbolsOutline<CR>')
 
 -- WhichKey
-vs.nnoremap("<leader>", ":WhichKey '<Space>'<CR>", true)
-vs.nnoremap("g", ":WhichKey 'g'<CR>", true)
+--vs.nnoremap("<leader>", ":WhichKey '<Space>'<CR>", true)
+--vs.nnoremap("g", ":WhichKey 'g'<CR>", true)
 
 -- TAB in normal mode will move to text buffer
 vs.nnoremap("<TAB>", ":bnext<CR>")

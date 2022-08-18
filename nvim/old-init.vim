@@ -52,6 +52,15 @@ local opts = {
       auto_focus = false
     },
   },
+  server = {
+    settings = {
+      ['rust-analyzer'] {
+        procMacro {
+          enable = true
+        }
+      }
+    }
+  }
 }
 require('rust-tools').setup(opts)
 
