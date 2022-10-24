@@ -110,7 +110,7 @@ pkg.run_function = function(function_name)
     }
 
     print("now we start with... " .. function_name)
-
+    
     local function runnables_handler(_, result)
         result = vim.tbl_filter(function(value)
             return vim.startswith(value.label, "test " .. function_name)

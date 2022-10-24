@@ -27,6 +27,7 @@ require('config/treesitter')
 require('config/toggleterm')
 require('config/octo')
 require('config/ayu')
+require('config/hop')
 
 require('config/org')
 
@@ -39,10 +40,16 @@ local wk = require('which-key')
 vs.tnoremap("hh", "<C-\\><C-n>")
 
 -- Use alt + hjkl to resize windows
+-- TODO: These don't work :sob:
 vs.nnoremap("<M-j>", ":resize -2<CR>")
 vs.nnoremap("<M-k>", ":resize +2<CR>")
 vs.nnoremap("<M-h>", ":vertical resize -2<CR>")
 vs.nnoremap("<M-l>", ":vertical resize +2<CR>")
+
+wk.register({
+    ["<C-f>"] = { function() require("hop").hint_char1({ current_line_only = false }) end, "Fancy Motion" },
+    ["<C-t>"] = { function() require("hop").hint_char2({ current_line_only = false }) end, "Fancy Motion (double char)" },
+})
 
 -- ** Telescope
 wk.register({
@@ -51,6 +58,7 @@ wk.register({
         g = { function() require("telescope.builtin").git_files() end, "Find Git Files" },
         r = { function() require("telescope.builtin").live_grep() end, "Live Grep" },
         b = { function() require("telescope.builtin").buffers() end, "Buffers" },
+        u = { function() require("telescope.builtin").lsp_references() end, "LSP References" },
     },
     ["<C-_>"] = { function() require("utils.telescope").search_in_buffer() end, "Search Current Buffer" },
 })
@@ -72,6 +80,7 @@ wk.register({
 })
 
 -- *** DAP
+-- TODO: Use the `wk.register( { ... }, { buffer = ??? })` functionality to do DAP-only/Rust-only bindings
 wk.register({
     ["<C-g>"] = { function()
         local ll = require('utils.lsp')

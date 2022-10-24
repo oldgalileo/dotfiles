@@ -10,7 +10,11 @@ require('packer').startup(function(use)
 	use("antoinemadec/FixCursorHold.nvim")
 	use("christoomey/vim-tmux-navigator")
 	use("alex-popov-tech/timer.nvim")
-
+    use({
+        "phaazon/hop.nvim",
+        branch = "v2",
+    })
+    
 	-- use({
 	-- 	'AckslD/nvim-whichkey-setup.lua',
 	-- 	requires = {'liuchengxu/vim-which-key'},

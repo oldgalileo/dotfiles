@@ -1,5 +1,3 @@
-require('nvim-treesitter')
-
 if vim.fn.has("mac") == 1 then
     require("nvim-treesitter.install").compilers = { "clang" }
 end
