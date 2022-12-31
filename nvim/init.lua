@@ -17,7 +17,7 @@ require('plugins') -- lua/plugins.lua
 require('config/cmp')
 require('config/mason')
 require('config/lspconfig')
-require('config/dap')
+--require('config/dap')
 require('config/rust-tools')
 require('config/symbols-outline')
 require('config/telescope')
@@ -25,11 +25,8 @@ require('config/trouble')
 require('config/nvim-tree')
 require('config/treesitter')
 require('config/toggleterm')
-require('config/octo')
-require('config/ayu')
-require('config/hop')
 
-require('config/org')
+--require('config/org')
 
 local vs = require('utils.vimscript') -- lua/vimscript.lua
 local wk = require('which-key')
@@ -68,14 +65,15 @@ wk.register({
 
 -- ** LSP
 wk.register({
-    ["<C-s>"] = { function() vim.lsp.buf.hover() end, "Hover" },
+    ["<C-s>"] = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Hover" },
     g = {
-        d = { function() vim.lsp.buf.definition() end, "Definition" },
+        h = { "<cmd>Lspsaga lsp_finder<CR>", "LSP Finder" },
+        d = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
         D = { function() vim.lsp.buf.declaration() end, "Declaration" },
-        a = { function() vim.lsp.buf.code_action() end, "Code Action" },
+        a = { "<cmd>Lspsaga code_action<CR>", "Code Action" },
         r = { function() vim.lsp.buf.references() end, "References" },
-        e = { function() vim.diagnostic.goto_prev() end, "Goto Prev Diagnostic" },
-        E = { function() vim.diagnostic.goto_next() end, "Goto Next Diagnostic" },
+        e = { "<cmd>Lspsaga diagnostic_jump_prev<CR>", "Goto Prev Diagnostic" },
+        E = { "<cmd>Lspsaga diagnostic_jump_next<CR>", "Goto Next Diagnostic" },
     },
 })
 
@@ -103,6 +101,7 @@ wk.register({
         },
     },
 }, { mode = "n", noremap = true })
+
 wk.register({
     ["<Leader>dv"] = { function() require('dapui').eval() end, "Debugger eval" },
 }, { mode = "v" })
@@ -112,7 +111,7 @@ vs.nnoremap("H", ':DapStepOut<CR>', true)
 vs.nnoremap("J", ':DapStepOver<CR>', true)
 
 -- ** General
-vs.nnoremap("<Leader>s", '<cmd>SymbolsOutline<CR>')
+vs.nnoremap("<Leader>s", "<cmd>SymbolsOutline<CR>")
 
 -- WhichKey
 --vs.nnoremap("<leader>", ":WhichKey '<Space>'<CR>", true)
@@ -128,3 +127,16 @@ vs.nnoremap("<esc>", ":noh<return><esc>")
 vs.nnoremap("vv", "<C-w>v", silent)
 vs.nnoremap("vs", "<C-w>s", silent)
 vs.nnoremap(",,", "<C-w><C-w>", silent)
+
+wk.register({
+    ["f"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.AFTER_CURSOR, current_line_only = true}) end, "Search Char (Forward)" },
+    ["F"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.BEFORE_CURSOR, current_line_only = true}) end, "Search Char (Backward)"},
+    ["t"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }) end, "Search To Char (Forward)"},
+    ["T"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 }) end, "Search To Char (Backward)"},
+}, { mode = "n" })
+wk.register({
+    ["f"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.AFTER_CURSOR, current_line_only = true}) end, "Search Char (Forward)"},
+    ["F"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.BEFORE_CURSOR, current_line_only = true}) end, "Search Char (Backward)"},
+    ["t"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.AFTER_CURSOR, current_line_only = true, hint_offset = -1 }) end, "Search To Char (Forward)"},
+    ["T"] = { function() require("hop").hint_char1({ direction = require("hop.hint").HintDirection.BEFORE_CURSOR, current_line_only = true, hint_offset = -1 }) end, "Search To Char (Backward)"},
+}, { mode = "v" })

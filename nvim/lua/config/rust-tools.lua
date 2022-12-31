@@ -1,4 +1,4 @@
-require("dapui").setup({})
+-- require("dapui").setup({})
 
  -- local extension_path = require("mason-registry").get_package("codelldb"):get_install_path() .. "extension/" -- note that this will error if you provide a non-existent package name
  -- local codelldb_path = extension_path .. "adapter/codelldb"
@@ -23,8 +23,8 @@ require('rust-tools').setup({
 			auto_focus = false
 		},
 	},
-    dap = {
-        -- adapter = require('rust-tools.dap').get_codelldb_adapter(codelldb_path, liblldb_path),
-        adapter = require("dap").adapters.codelldb,
-    },
+    -- dap = {
+    --     -- adapter = require('rust-tools.dap').get_codelldb_adapter(codelldb_path, liblldb_path),
+    --     adapter = require("dap").adapters.codelldb,
+    -- },
 })
