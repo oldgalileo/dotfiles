@@ -1,6 +1,8 @@
 require("toggleterm").setup {
-    open_mapping = [[tt]],
-    direction = "float",
+    open_mapping = [[vt]],
+    size = 80,
+    insert_mapping = [[vt]],
+    direction = "vertical",
     hide_numbers = true,
     shade_terminals = true,
     shading_factor = 3,
