@@ -3,8 +3,6 @@ vim.cmd([[packadd packer.nvim]])
 require('packer').startup(function(use)
     use({ "wbthomason/packer.nvim", opt = true })
 
-    use { 'rafcamlet/nvim-luapad', requires = "antoinemadec/FixCursorHold.nvim" }
-
 	-- General Utility/Fixes
 	use("ojroques/vim-oscyank")
 	use("antoinemadec/FixCursorHold.nvim")
@@ -15,10 +13,6 @@ require('packer').startup(function(use)
         branch = "v2",
     })
     
-	-- use({
-	-- 	'AckslD/nvim-whichkey-setup.lua',
-	-- 	requires = {'liuchengxu/vim-which-key'},
-	-- })
     use({
         "folke/which-key.nvim",
         config = function()
@@ -27,7 +21,11 @@ require('packer').startup(function(use)
     })
 	
 	-- LSP Stuff
-    use({ "williamboman/mason.nvim", branch = "alpha" }) -- Used to install DAP / LSP servers
+    use({ "williamboman/mason.nvim",
+        requires = { { "williamboman/mason-lspconfig.nvim" } },
+        branch = "main",
+        run = ":MasonUpdate"
+    }) -- Used to install DAP / LSP servers
     use({
         "neovim/nvim-lspconfig",
         -- requires = { { "williamboman/nvim-lsp-installer" } }
@@ -47,7 +45,7 @@ require('packer').startup(function(use)
         "mfussenegger/nvim-dap",
         wants = { "nvim-dap-ui", "mason" },
         requires = {
-            { "williamboman/mason.nvim", branch = "alpha" },
+            { "williamboman/mason.nvim" },
             "rcarriga/nvim-dap-ui",
         },
     })
@@ -77,34 +75,33 @@ require('packer').startup(function(use)
 	use("simrat39/rust-tools.nvim")
 	use("ray-x/lsp_signature.nvim")
     -- Used for GitHub PRs (didn't really work, TODO)
-    use({
-        "pwntester/octo.nvim",
-        requires = {
-            "nvim-lua/plenary.nvim",
-            "nvim-telescope/telescope.nvim",
-            "kyazdani42/nvim-web-devicons"
-        },
-    })
-    use({"akinsho/toggleterm.nvim", tag = 'v1.*' })
+    -- use({
+    --     "pwntester/octo.nvim",
+    --     requires = {
+    --         "nvim-lua/plenary.nvim",
+    --         "nvim-telescope/telescope.nvim",
+    --         "kyazdani42/nvim-web-devicons"
+    --     },
+    -- })
+    use({"akinsho/toggleterm.nvim", tag = 'v2.*' })
 
 	-- Neorg
 	use({
         "nvim-treesitter/nvim-treesitter",
-        before = "neorg",
         run = ":TSUpdate"
     })
-	use({
-		"nvim-neorg/neorg",
-		requires = {
-			{ "nvim-lua/plenary.nvim" },
-			{ "nvim-treesitter/nvim-treesitter" },
-			{ "nvim-telescope/telescope.nvim" },
-            { "nvim-neorg/neorg-telescope" }
-		}
-	})
+	-- use({
+	-- 	"nvim-neorg/neorg",
+	-- 	requires = {
+	-- 		{ "nvim-lua/plenary.nvim" },
+	-- 		{ "nvim-treesitter/nvim-treesitter" },
+	-- 		{ "nvim-telescope/telescope.nvim" },
+    --         { "nvim-neorg/neorg-telescope" }
+	-- 	}
+	-- })
 
 	-- Theme
-	use("Shatur/neovim-ayu")
+	use("tanvirtin/monokai.nvim")
 	use({
 		'kyazdani42/nvim-tree.lua',
 		requires = { { "kyazdani42/nvim-web-devicons" } }

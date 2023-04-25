@@ -25,11 +25,12 @@ require('config/trouble')
 require('config/nvim-tree')
 require('config/treesitter')
 require('config/toggleterm')
-require('config/octo')
-require('config/ayu')
+-- require('config/octo')
+--require('config/ayu')
+require('config/monokai')
 require('config/hop')
 
-require('config/org')
+-- require('config/org')
 
 local vs = require('utils.vimscript') -- lua/vimscript.lua
 local wk = require('which-key')
