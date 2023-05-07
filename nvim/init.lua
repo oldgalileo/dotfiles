@@ -9,28 +9,21 @@
 -- - https://github.com/elken/nvim/blob/master/init.lua
 -- - https://github.com/simrat39/dotfiles/blob/master/nvim/.config/nvim/init.lua
 
-vim.g.lspservers_to_install = { 'gopls', 'rust_analyzer' }
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "https://github.com/folke/lazy.nvim.git",
+    "--branch=stable", -- latest stable release
+    lazypath,
+  })
+end
+vim.opt.rtp:prepend(lazypath)
 
 require('general') -- lua/general.lua
-require('plugins') -- lua/plugins.lua
-
-require('config/cmp')
-require('config/mason')
-require('config/lspconfig')
---require('config/dap')
-require('config/rust-tools')
-require('config/symbols-outline')
-require('config/telescope')
-require('config/trouble')
-require('config/nvim-tree')
-require('config/treesitter')
-require('config/toggleterm')
--- require('config/octo')
--- require('config/ayu')
-require('config/monokai')
-require('config/hop')
-
--- require('config/org')
+require("lazy").setup("plugins")
 
 local vs = require('utils.vimscript') -- lua/vimscript.lua
 local wk = require('which-key')
@@ -69,7 +62,7 @@ wk.register({
 
 -- ** LSP
 wk.register({
-    ["<C-s>"] = { "<cmd>Lspsaga show_cursor_diagnostics<CR>", "Hover" },
+    ["<C-s>"] = { "<cmd>Lspsaga hover_doc<CR>", "Hover" },
     g = {
         h = { "<cmd>Lspsaga lsp_finder<CR>", "LSP Finder" },
         d = { "<cmd>Lspsaga peek_definition<CR>", "Definition" },
@@ -103,6 +96,7 @@ wk.register({
             c = { function() require('dap').terminate() end, "Debugger terminate" },
             v = { function() require('dapui').eval() end, "Debugger eval" },
         },
+        s = { "<cmd>SymbolsOutline<CR>", "Symbol Outline" }
     },
 }, { mode = "n", noremap = true })
 

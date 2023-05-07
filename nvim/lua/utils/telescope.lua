@@ -1,9 +1,9 @@
 local actions = require("telescope.actions")
 
-local M = {}
+local Pkg = {}
 
 -- Open git files if possible, if it errors out open normal find files
-function M.search_files()
+function Pkg.search_files()
   local opts = {}
   local ok = pcall(require("telescope.builtin").git_files, opts)
 
@@ -12,7 +12,7 @@ function M.search_files()
   end
 end
 
-function M.search_in_buffer()
+function Pkg.search_in_buffer()
   local opts = {
     attach_mappings = function(_, map)
       map("i", "<C-j>", actions.move_selection_next)
@@ -27,11 +27,11 @@ function M.search_in_buffer()
   )
 end
 
-function M.search_dotfiles()
+function Pkg.search_dotfiles()
   local opts = {
     cwd = "~/dotfiles",
   }
   require("telescope.builtin").git_files(opts)
 end
 
-return M
+return Pkg

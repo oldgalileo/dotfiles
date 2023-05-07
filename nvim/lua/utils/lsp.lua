@@ -1,17 +1,17 @@
 local lsp_proto = require('vim.lsp.protocol')
 
-local pkg = {}
+local Pkg = {}
 
 ---@param ft string
 ---@param command string
-pkg.setup_auto_format = function(ft, command)
+Pkg.setup_auto_format = function(ft, command)
     if not command then
         command = "lua vim.lsp.buf.formatting_sync()"
     end
     vim.cmd(string.format("autocmd BufWritePre *.%s %s", ft, command))
 end
 
-pkg.callback_intermediate = function(handler)
+Pkg.callback_intermediate = function(handler)
     return function(...)
         local config_or_client_id = select(4, ...)
         local is_new = type(config_or_client_id) ~= "number"
@@ -34,12 +34,12 @@ pkg.callback_intermediate = function(handler)
     end
 end
 
-pkg.function_kinds = {
+Pkg.function_kinds = {
     Function = true,
     Method = true,
 }
 
-pkg.extract_symbols = function(items, _result)
+Pkg.extract_symbols = function(items, _result)
     local result = _result or {}
     for _, item in ipairs(items) do
         local kind = lsp_proto.SymbolKind[item.kind] or 'Unknown'
@@ -62,14 +62,14 @@ pkg.extract_symbols = function(items, _result)
         })
 
         if item.children then
-            pkg.extract_symbols(item.children, result)
+            Pkg.extract_symbols(item.children, result)
         end
     end
 
     return result
 end
 
-pkg.get_current_function = function()
+Pkg.get_current_function = function()
     local params = {
         textDocument = vim.lsp.util.make_text_document_params(),
         position = nil, -- get em all
@@ -80,13 +80,13 @@ pkg.get_current_function = function()
 
     local function symbol_handler(_, result)
         local function_symbols = vim.tbl_filter(function(value) 
-            return pkg.function_kinds[value.kind]
-        end, pkg.extract_symbols(result))
+            return Pkg.function_kinds[value.kind]
+        end, Pkg.extract_symbols(result))
         functions = function_symbols
         executed = true
     end
 
-    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, pkg.callback_intermediate(symbol_handler))
+    vim.lsp.buf_request(0, "textDocument/documentSymbol", params, Pkg.callback_intermediate(symbol_handler))
 
     vim.wait(10000, function() return executed end)
 
@@ -103,7 +103,7 @@ pkg.get_current_function = function()
     end
 end
 
-pkg.run_function = function(function_name)
+Pkg.run_function = function(function_name)
     local params = {
         textDocument = vim.lsp.util.make_text_document_params(),
         position = nil, -- get em all
@@ -133,7 +133,7 @@ pkg.run_function = function(function_name)
         require('rust-tools.dap').start(result[1].args)
     end
 
-    vim.lsp.buf_request(0, "experimental/runnables", params, pkg.callback_intermediate(runnables_handler))
+    vim.lsp.buf_request(0, "experimental/runnables", params, Pkg.callback_intermediate(runnables_handler))
 end
 
-return pkg
+return Pkg

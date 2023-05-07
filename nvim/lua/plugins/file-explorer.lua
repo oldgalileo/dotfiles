@@ -1,6 +1,6 @@
 return {
-	{
-		'kyazdani42/nvim-tree.lua',
+    {
+        'nvim-tree/nvim-tree.lua',
         lazy = false,
         opts = {
             actions = {
@@ -9,8 +9,14 @@ return {
                 }
             }
         },
+        cmd = { "NvimTreeToggle", "NvimTreeOpen", "NvimTreeFocus", "NvimTreeFindFileToggle" },
+        event = "User DirOpened",
         config = function(_, opts)
             require("nvim-tree").setup(opts)
         end,
-	},
+    },
+    {
+        "nvim-tree/nvim-web-devicons",
+        lazy = true
+    },
 }
