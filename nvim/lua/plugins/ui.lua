@@ -3,11 +3,10 @@ return {
         "tanvirtin/monokai.nvim",
         lazy = false,
         priority = 1000,
-        opts = {
-            palette = require('monokai').pro
-        },
         config = function(_, opts)
-            require('monokai').setup(opts)
+            require('monokai').setup({
+                palette = require('monokai').pro
+            })
         end
     },
     {
