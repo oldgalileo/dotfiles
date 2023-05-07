@@ -1,0 +1,6 @@
+[submodule "zsh/.zconfig/zsh-autosuggestions"]
+	path = zsh/.zconfig/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "zsh/.zconfig/zsh-histdb"]
+	path = zsh/.zconfig/zsh-histdb
+	url = https://github.com/larkery/zsh-histdb
