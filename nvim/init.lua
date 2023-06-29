@@ -50,7 +50,7 @@ wk.register({
     ["<Leader>"] = {
         f = { function() require("telescope.builtin").find_files() end, "Find Files" },
         g = { function() require("telescope.builtin").git_files() end, "Find Git Files" },
-        r = { function() require("telescope.builtin").live_grep() end, "Live Grep" },
+        r = { function() require("telescope").extensions.live_grep_args.live_grep_args() end, "Live Grep (with args)" },
         b = { function() require("telescope.builtin").buffers() end, "Buffers" },
         u = { function() require("telescope.builtin").lsp_references() end, "LSP References" },
     },

@@ -51,3 +51,6 @@ vim.opt.pumheight = 30
 
 -- Disable cruft in :terminal
 vim.cmd("autocmd TermOpen * setlocal nonumber norelativenumber")
+
+vim.g.node_host_prog = '~/.nvm/versions/node/v18.16.0/bin/node'
+vim.g.npm_host_prog = '~/.nvm/versions/node/v18.16.0/bin/node'

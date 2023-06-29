@@ -14,6 +14,11 @@ return {
             },
             autoformat = true, 
             servers = {
+                -- The Bash LSP requires NPM. To install NPM, run:
+                -- `wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash`
+                -- and then do `nvm list-remote` to see which versions are available.
+                -- Finally, `nvm install <version>`
+                bashls = {},
                 rust_analyzer = {}
             },
             setup = {},
@@ -61,7 +66,7 @@ return {
             for server, server_opts in pairs(servers) do
                 if server_opts then
                     server_opts = server_opts == true and {} or server_opts
-                    if vim.tbl_contains(mlsp_servers, server) then
+                    if not vim.tbl_contains(mlsp_servers, server) then
                         setup(server)
                     else
                         ensure_installed[#ensure_installed + 1] = server
@@ -85,7 +90,16 @@ return {
             {"nvim-treesitter/nvim-treesitter"}
         }
     },
-
+    {
+        "j-hui/fidget.nvim",
+        event = "VimEnter",
+        opts = {},
+    },
+    {
+        "simrat39/symbols-outline.nvim",
+        event = "LspAttach",
+        opts = {},
+    },
     "folke/trouble.nvim",
     {
         "williamboman/mason.nvim",

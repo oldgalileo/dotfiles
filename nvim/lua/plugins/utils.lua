@@ -31,7 +31,19 @@ return {
             require("hop").setup({ case_insensitive = false, keys = ".yrkq'lefiuxn;djtcogpab"})
         end
     },
-
+    {
+        "esensar/nvim-dev-container",
+        dependencies = {
+            {"nvim-treesitter/nvim-treesitter"}
+        },
+        cond = function()
+            return (vim.fn.isdirectory('.devcontainer') ~= 0) or (vim.fn.filereadable('.devcontainer.json') ~= 0)
+        end,
+        opts = {
+            generate_commands = true,
+            container_runtime = "docker",
+        },
+    },
 --     {
 --         "ojroques/nvim-osc52",
 --         cmd = { "OSCYank", "OSCYankVisual", "Yank" },

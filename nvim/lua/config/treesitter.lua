@@ -25,6 +25,7 @@ require('nvim-treesitter.configs').setup({
         "lua",
         "bash",
         "json",
+        "jsonc",
         "nix",
         "norg",
         "norg_table",
