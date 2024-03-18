@@ -8,10 +8,20 @@ bindkey "^¬" clear-screen
 git config --global alias.root 'rev-parse --show-toplevel'
 
 alias passcp="scp -oProxyJump=galileo@192.168.64.1"
+# Make remote copying work seamlessly with tmux
+if [[ -n "$TMUX" ]] && [[ -z "${SSH_CLIENT-}" ]]; then
+    alias ssh='ssh -R 19988:localhost:19988 -o "LocalCommand='$HOME'/.tmux/yank-listener.sh &"'
+fi
+
+export HOSTNAME="$(hostname)"
+export GITHUB_API_TOKEN=""
+export OPENAI_API_KEY=""
 
 # Colours for ls(1)
 export CLICOLOR=1
-export LS_COLORS="di=01;38;05;166:ex=38;5;214"
+# On macOS it's LSCOLORS but the below one is broken
+#export LS_COLORS="di=01;38;05;166:ex=38;5;214"
+#export LSCOLORS="di=01;38;05;166:ex=38;5;214"
 alias ls="ls --color=auto"
 
 # VIM
@@ -25,7 +35,12 @@ eval "$(atuin init zsh)"
 source $HOME/.cargo/env
 
 # Golang Config
-export GOROOT=/usr/local/go
+if [[ "$(uname)" == "Darwin" ]]; then
+    # MacPorts
+    export GOROOT=/opt/local/lib/go
+else
+    export GOROOT=/usr/local/go
+fi
 export GOPATH=$HOME/go
 export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
 
