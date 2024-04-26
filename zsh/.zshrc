@@ -10,7 +10,13 @@ git config --global alias.root 'rev-parse --show-toplevel'
 alias passcp="scp -oProxyJump=galileo@192.168.64.1"
 # Make remote copying work seamlessly with tmux
 if [[ -n "$TMUX" ]] && [[ -z "${SSH_CLIENT-}" ]]; then
-    alias ssh='ssh -R 19988:localhost:19988 -o "LocalCommand='$HOME'/.tmux/yank-listener.sh &"'
+    alias ssh='ssh -R 19988:localhost:19988 -o "LocalCommand='$HOME'/.tmux/yank-listener.sh >/tmp/yank-listener.log 2>&1 &"'
+fi
+
+if [[ "$(uname)" == "Darwin" ]]; then
+    ssh-add --apple-load-keychain 2> /dev/null
+
+    alias ls="gls --color=always"
 fi
 
 export HOSTNAME="$(hostname)"
@@ -20,9 +26,8 @@ export OPENAI_API_KEY=""
 # Colours for ls(1)
 export CLICOLOR=1
 # On macOS it's LSCOLORS but the below one is broken
-#export LS_COLORS="di=01;38;05;166:ex=38;5;214"
-#export LSCOLORS="di=01;38;05;166:ex=38;5;214"
-alias ls="ls --color=auto"
+export LS_COLORS="di=01;38;05;166:ex=38;5;214"
+export LSCOLORS="di=01;38;05;166:ex=38;5;214"
 
 # VIM
 : which nvim && alias vim="nvim"

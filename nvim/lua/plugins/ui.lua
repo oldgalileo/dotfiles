@@ -26,10 +26,11 @@ return {
                 lazy = true,
             },
             {
-                { "nvim-telescope/telescope-live-grep-args.nvim" },
+                "nvim-telescope/telescope-live-grep-args.nvim",
+                "nvim-telescope/telescope-ui-select.nvim"
             }
         },
-        cmd = "Telescope",
+        lazy = false,
         opts = function()
             local Ta = require("telescope.actions")
             local Lga = require("telescope-live-grep-args.actions")
@@ -60,6 +61,8 @@ return {
             Ts.load_extension("fzf")
             Ts.load_extension("live_grep_args")
             Ts.setup(opts)
+
+            Ts.load_extension("ui-select")
         end
     }
 }
