@@ -10,7 +10,7 @@ git config --global alias.root 'rev-parse --show-toplevel'
 alias passcp="scp -oProxyJump=galileo@192.168.64.1"
 # Make remote copying work seamlessly with tmux
 if [[ -n "$TMUX" ]] && [[ -z "${SSH_CLIENT-}" ]]; then
-    alias ssh='ssh -R 19988:localhost:19988 -o "LocalCommand='$HOME'/.tmux/yank-listener.sh >/tmp/yank-listener.log 2>&1 &"'
+    alias ssh='ssh -R 19988:localhost:19988 -o "PermitLocalCommand yes" -o "LocalCommand='$HOME'/.tmux/yank-listener.sh >/tmp/yank-listener.log 2>&1 &"'
 fi
 
 if [[ "$(uname)" == "Darwin" ]]; then
