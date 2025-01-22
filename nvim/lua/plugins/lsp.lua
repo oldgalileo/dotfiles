@@ -7,33 +7,100 @@ return {
             "williamboman/mason-lspconfig.nvim",
             "lspsaga.nvim"
         },
-        opts = {
-            diagnostics = {
-                underline = true,
-                update_in_insert = false,
-            },
-            autoformat = true, 
-            servers = {
-                -- The Bash LSP requires NPM. To install NPM, run:
-                -- `wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash`
-                -- and then do `nvm list-remote` to see which versions are available.
-                -- Finally, `nvm install <version>`
-                bashls = {},
-                rust_analyzer = {}
-            },
-            setup = {},
-        },
+        opts = function ()
+            ---@class PluginLspOpts
+            return {
+                ---@type vim.diagnostic.Opts
+                diagnostics = {
+                    underline = true,
+                    update_in_insert = false,
+                    virtual_text = {
+                        spacing = 4,
+                        source = "if_many",
+                        prefix = function(diagnostic)
+                            local icons = Dotfiles.icons.diagnostics
+                            for d, icon in pairs(icons) do
+                                if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                                    return icon
+                                end
+                            end
+                            return "●"
+                        end,
+                    },
+                    severity_sort = true,
+                    signs = {
+                        text = {
+                            [vim.diagnostic.severity.ERROR] = Dotfiles.icons.diagnostics.Error,
+                            [vim.diagnostic.severity.WARN] = Dotfiles.icons.diagnostics.Warn,
+                            [vim.diagnostic.severity.HINT] = Dotfiles.icons.diagnostics.Hint,
+                            [vim.diagnostic.severity.INFO] = Dotfiles.icons.diagnostics.Info,
+                        }
+                    }
+                },
+                inlay_hints = {
+                    enabled = true,
+                },
+                --- Enable LSP code lens baked into Neovim 0.10.0 and up
+                codelens = {
+                    enabled = false,
+                },
+                autoformat = true,
+                servers = {
+                    -- The Bash LSP requires NPM. To install NPM, run:
+                    -- `wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash`
+                    -- and then do `nvm list-remote` to see which versions are available.
+                    -- Finally, `nvm install <version>`
+                    -- bashls = {},
+                    rust_analyzer = {},
+                    rscls = {},
+                },
+                setup = {},
+            }
+        end,
         config = function(_, opts)
             require("utils.format").autoformat = opts.autoformat
+            local lsp = require("lspconfig")
+            local lsp_configs = require("lspconfig.configs")
 
-            vim.fn.sign_define("DiagnosticSignError", { text = '', texthl = "Error", numhl = "" })
-            vim.fn.sign_define("DiagnosticSignWarn", { text = '', texthl = "Warn", numhl = "" })
-            vim.fn.sign_define("DiagnosticSignHint", { text = '', texthl = "Hint", numhl = "" })
-            vim.fn.sign_define("DiagnosticSignInfo", { text = '', texthl = "Info", numhl = "" })
+            if not lsp_configs.rscls then
+                lsp_configs.rscls = {
+                    default_config = {
+                        cmd = { "rscls" },
+                        filetypes = { "rust-script" },
+                        root_dir = function(fname) return require("lspconfig").util.path.dirname(fname) end,
+                    },
+                    docs = {
+                        description = [[
+https://github.com/MiSawa/rscls
 
+rscls, a language server for rust-script
+]],
+                    },
+                }
+            end
+
+            vim.filetype.add {
+                pattern = {
+                    [".*"] = {
+                        function(path, bufnr)
+                            local content = vim.api.nvim_buf_get_lines(bufnr, 0, 1, false)[1] or ""
+                            if vim.regex([[^#!.*rust-script]]):match_str(content) ~= nil then return "rust-script" end
+                        end,
+                        { priority = math.huge },
+                    },
+                },
+            }
+            vim.treesitter.language.register("rust", "rust-script")
+
+            -- Setup diagonstics
+            for severity, icon in pairs(opts.diagnostics.signs.text) do
+                local name = vim.diagnostic.severity[severity]:lower():gsub("^%l", string.upper)
+                name = "DiagnosticSign" .. name
+                vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+            end
             vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
-            local servers = opts.servers 
+            local servers = opts.servers
             local capabilities = vim.tbl_deep_extend(
                 "force",
                 {},

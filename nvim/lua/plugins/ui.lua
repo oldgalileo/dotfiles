@@ -1,14 +1,26 @@
 return {
     {
         "tanvirtin/monokai.nvim",
-        lazy = false,
-        priority = 1000,
-        config = function(_, opts)
-            require('monokai').setup({
-                palette = require('monokai').pro
-            })
-        end
-    },
+		lazy = false,
+		priority = 1000,
+		config = function(_)
+			require('monokai').setup({
+				palette = require('monokai').pro
+			})
+		end
+	},
+	-- {
+	-- 	"OXY2DEV/markview.nvim",
+	-- 	lazy = false,      -- Recommended
+	-- 	-- ft = "markdown" -- If you decide to lazy-load anyway
+	-- 	dependencies = {
+	-- 		-- You will not need this if you installed the
+	-- 		-- parsers manually
+	-- 		-- Or if the parsers are in your $RUNTIMEPATH
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"nvim-tree/nvim-web-devicons"
+	-- 	},
+    -- },
     {
         "nvim-lua/plenary.nvim",
         cmd = {
@@ -30,7 +42,6 @@ return {
                 "nvim-telescope/telescope-ui-select.nvim"
             }
         },
-        lazy = false,
         opts = function()
             local Ta = require("telescope.actions")
             local Lga = require("telescope-live-grep-args.actions")

@@ -1,4 +1,4 @@
-local Util = require("lazy.core.util")
+require("lazy.core.util")
 
 local Pkg = {}
 

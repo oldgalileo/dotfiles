@@ -1,10 +1,10 @@
-local Util = require("lazy.core.util")
 
 local M = {}
 
 M.autoformat = true
 
 function M.toggle()
+  local Util = require("lazy.core.util")
   if vim.b.autoformat == false then
     vim.b.autoformat = nil
     M.autoformat = true

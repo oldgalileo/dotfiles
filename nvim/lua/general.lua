@@ -22,6 +22,9 @@ vim.opt.cursorline = true
 vim.opt.background = "dark"
 vim.opt.showtabline = 4
 
+-- Always show signcolumn, with width of 2
+vim.opt.signcolumn = "yes"
+
 vim.opt.mouse = 'a'
 
 vim.opt.timeoutlen = 500

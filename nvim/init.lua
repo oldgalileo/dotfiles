@@ -9,6 +9,14 @@
 -- - https://github.com/elken/nvim/blob/master/init.lua
 -- - https://github.com/simrat39/dotfiles/blob/master/nvim/.config/nvim/init.lua
 
+_G.Dotfiles = {
+    icons = require('utils.icons'),
+    format = require('utils.format'),
+    lsp = require('utils.lsp'),
+    vimscript = require('utils.vimscript'),
+    telescope = require('utils.telescope')
+}
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
   vim.fn.system({
@@ -25,7 +33,7 @@ vim.opt.rtp:prepend(lazypath)
 require('general') -- lua/general.lua
 require("lazy").setup("plugins")
 
-local vs = require('utils.vimscript') -- lua/vimscript.lua
+local vs = Dotfiles.vimscript -- lua/utils/vimscript.lua
 local wk = require('which-key')
 
 -- * Mappings

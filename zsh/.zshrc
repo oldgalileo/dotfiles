@@ -47,15 +47,24 @@ else
     export GOROOT=/usr/local/go
 fi
 export GOPATH=$HOME/go
-export PATH=$GOROOT/bin:$GOPATH/bin:$PATH
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # Zig Config
 export ZIGROOT=$HOME/zig/zig-linux-aarch64-0.10.0/
 export PATH=$PATH:$ZIGROOT
 
+# Python Config
+export PYROOT=$HOME/Library/Python/3.9
+export PATH=$PATH:$PYROOT/bin
+
 # MacPorts Config
 export PATH=/opt/local/bin:/opt/local/sbin:$PATH
 export MANPATH=/opt/local/share/man:$MANPATH
+
+# Python Config
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
 
 # Prompt Configuration
 
@@ -120,3 +129,12 @@ schedprompt() {
 }
 
 schedprompt
+
+
+# BEGIN opam configuration
+# This is useful if you're using opam as it adds:
+#   - the correct directories to the PATH
+#   - auto-completion for the opam binary
+# This section can be safely removed at any time if needed.
+[[ ! -r '/Users/galileo/.opam/opam-init/init.zsh' ]] || source '/Users/galileo/.opam/opam-init/init.zsh' > /dev/null 2> /dev/null
+# END opam configuration
