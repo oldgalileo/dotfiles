@@ -79,7 +79,7 @@ Pkg.get_current_function = function()
     local executed = false
 
     local function symbol_handler(_, result)
-        local function_symbols = vim.tbl_filter(function(value) 
+        local function_symbols = vim.tbl_filter(function(value)
             return Pkg.function_kinds[value.kind]
         end, Pkg.extract_symbols(result))
         functions = function_symbols
@@ -110,7 +110,7 @@ Pkg.run_function = function(function_name)
     }
 
     print("now we start with... " .. function_name)
-    
+
     local function runnables_handler(_, result)
         result = vim.tbl_filter(function(value)
             return vim.startswith(value.label, "test " .. function_name)

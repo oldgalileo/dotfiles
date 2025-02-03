@@ -4,7 +4,7 @@ return {
         event = { "BufReadPre", "BufNewFile" },
         dependencies = {
             "mason.nvim", -- LSP / DAP installer
-            "williamboman/mason-lspconfig.nvim",
+            "mason-lspconfig.nvim",
             "lspsaga.nvim"
         },
         opts = function ()
@@ -60,8 +60,9 @@ return {
         config = function(_, opts)
             require("utils.format").autoformat = opts.autoformat
             local lsp = require("lspconfig")
-            local lsp_configs = require("lspconfig.configs")
 
+            -- Setup for rust-script / rscls
+            local lsp_configs = require("lspconfig.configs")
             if not lsp_configs.rscls then
                 lsp_configs.rscls = {
                     default_config = {
